@@ -1,17 +1,33 @@
 package card
 
-class Shoe(cards: List<Card> = createCards()) {
+class Shoe(private val shoeSize: Int = 1, cards: List<Card> = fromShoeSize(shoeSize)) {
     private val cards = cards.toMutableList()
 
     companion object {
         private fun createCards() = Suit
             .values()
             .fold(listOf<Card>()) { acc, suit ->
-                val cards = createCard(suit)
+                val cards = createCards(suit)
                 acc + cards
             }.shuffled()
 
-        private fun createCard(suit: Suit) = CardNumber.range(suit) + Face.range(suit)
+        private fun createCards(suit: Suit) = CardNumber.range(suit) + Face.range(suit)
+
+        private fun fromShoeSize(shoeSize: Int): List<Card> {
+            require(shoeSize >= 1)
+            return (0 until shoeSize).flatMap { createCards() }
+        }
+
+        private const val REFRESH_THRESHOLD = 0.5
+    }
+
+    private fun needsRefresh() = cards.size < (52 * shoeSize) * REFRESH_THRESHOLD
+
+    private fun refreshIfPossible() {
+        if (needsRefresh()) {
+            cards.clear()
+            cards.addAll(fromShoeSize(shoeSize))
+        }
     }
 
     val size: Int get() = cards.size
@@ -32,5 +48,10 @@ class Shoe(cards: List<Card> = createCards()) {
         return result
     }
 
-    fun deal() = cards.removeFirst()
+    operator fun plus(shoe: Shoe) = Shoe(cards = shoe.cards + this.cards)
+
+    fun deal(): Card {
+        refreshIfPossible()
+        return cards.removeFirst()
+    }
 }

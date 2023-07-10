@@ -1,10 +1,12 @@
 package game
 
 import card.Face.Ace
+import card.Shoe
 import card.Suit.*
 import card.of
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import kotlin.test.assertTrue
 
 class HandTest {
 
@@ -75,5 +77,12 @@ class HandTest {
         val actualTotal = hand.total()
 
         assertEquals(expectedTotal, actualTotal)
+    }
+
+    @Test
+    fun `hand from shoe`() {
+        val shoe = Shoe()
+        val hand = Hand(shoe = shoe)
+        assertTrue(hand.total() in 1..21) // Checks that cards have actually been dealt to the hand
     }
 }
