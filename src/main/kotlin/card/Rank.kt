@@ -42,7 +42,7 @@ class CardNumber(internal val value: Int) : Rank {
     }
 
     override fun hashCode(): Int {
-        return value
+        return value.hashCode()
     }
 
     override fun toString(): String {
