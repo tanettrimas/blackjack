@@ -145,4 +145,20 @@ class HandTest {
         println(hand.total())
         assertTrue(hand.hasBlackjack())
     }
+
+    @Test
+    fun `has tie with equal score`() {
+        val shoe = Shoe() + Shoe(cards = listOf(Ace of Spades, Queen of Diamonds, Ace of Hearts, 10 of Diamonds))
+        val player = Hand(shoe)
+        val dealer = Hand(shoe)
+        assertTrue(player.compareTo(dealer) == 0)
+    }
+
+    @Test
+    fun `can determine winner`() {
+        val shoe = Shoe() + Shoe(cards = listOf(Ace of Spades, Queen of Diamonds, Ace of Hearts, 10 of Diamonds))
+        val player = Hand(shoe).hit(shoe) // Wil get over 21 and bust
+        val dealer = Hand(shoe)
+        assertTrue(player < dealer)
+    }
 }
