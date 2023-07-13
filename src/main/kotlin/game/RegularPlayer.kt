@@ -59,7 +59,7 @@ class RegularPlayer(hands: List<Hand>) : Player {
     }
 
     override fun isFinished(): Boolean {
-        return hands.all { it is FinishedHand || it.isBust() }
+        return isBust() || hands.all { it is FinishedHand }
     }
 }
 

@@ -164,6 +164,8 @@ class HandTest {
 
         val dealer = Dealer(BlackjackHand(shoe))
         assertEquals(ScoreResult.Lose, player.scoreAgainst(dealer))
+        assertTrue(player.isFinished())
+        assertTrue(player.isBust())
     }
 }
 
