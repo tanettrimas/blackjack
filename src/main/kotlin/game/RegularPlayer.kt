@@ -3,7 +3,7 @@ package game
 import card.Shoe
 
 class RegularPlayer(hands: List<Hand>) : Player {
-    private val hands: MutableList<Hand> = hands.toMutableList()
+    private val hands = mutableListOf<Hand>().apply { addAll(hands) }
     private var aceAssignment: AceAssignment = AceAssignment.NOT_ASSIGNED
 
     private var currentHandIndex = 0
@@ -21,6 +21,7 @@ class RegularPlayer(hands: List<Hand>) : Player {
         this.aceAssignment = aceAssignment
     }
 
+    @Throws(AceNotAssignedError::class)
     override fun total(): Int {
         return HandWithAssignment(currentHand, aceAssignment).total()
     }
@@ -63,10 +64,11 @@ class RegularPlayer(hands: List<Hand>) : Player {
 }
 
 private class HandWithAssignment(private val hand: Hand, private val aceAssignment: AceAssignment) : Hand by hand {
+    @Throws(AceNotAssignedError::class)
     override fun total(): Int {
         val sum = hand.total()
         if (hand.hasAce() && aceAssignment == AceAssignment.NOT_ASSIGNED) {
-            throw AceNotAssignedError("")
+            throw AceNotAssignedError("Must assign ace before calculating total")
         }
         return if (hand.hasAce()) {
             sum + aceAssignment.value

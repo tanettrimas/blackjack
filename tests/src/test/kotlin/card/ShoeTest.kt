@@ -25,9 +25,13 @@ class ShoeTest {
 
     @Test
     fun `is refreshed`() {
-        val smallShoe = Shoe(cards = listOf(Face.Ace of Suit.Spades))
-        assertEquals(1, smallShoe.size)
-        smallShoe.deal()
-        assertEquals(51, smallShoe.size)
+        val shoe = Shoe()
+        shoe.deal()
+        shoe.deal()
+        assertEquals(50, shoe.size)
+        while (shoe.size <= 50) {
+            shoe.deal()
+        }
+        assertEquals(51, shoe.size) // Shoe is refreshed after some time
     }
 }

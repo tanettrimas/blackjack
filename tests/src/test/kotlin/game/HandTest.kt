@@ -95,7 +95,7 @@ class HandTest {
 
     @Test
     fun `can split a hand`() {
-        val shoe = Shoe() + Shoe(cards = listOf(10 of Spades, 10 of Diamonds))
+        val shoe = Shoe(cards = listOf(10 of Spades, 10 of Diamonds))
         val hand = BlackjackHand(shoe = shoe)
         assertEquals(20, hand.total())
         val (first, second) = hand.split(shoe)
@@ -111,7 +111,7 @@ class HandTest {
 
     @Test
     fun `cannot split a hand that is already split, even if the card value are equal`() {
-        val shoe = Shoe() + Shoe(cards = listOf(10 of Spades, 10 of Diamonds, 10 of Spades, 10 of Diamonds))
+        val shoe = Shoe(cards = listOf(10 of Spades, 10 of Diamonds, 10 of Spades, 10 of Diamonds))
         val hand = BlackjackHand(shoe = shoe)
         val (first, second) = hand.split(shoe)
         assertThrows<IllegalStateException> {
@@ -124,7 +124,7 @@ class HandTest {
 
     @Test
     fun `can hit a hand`() {
-        val shoe = Shoe() + Shoe(cards = listOf(8 of Hearts, 2 of Spades, Ace of Spades))
+        val shoe = Shoe(cards = listOf(8 of Hearts, 2 of Spades, Ace of Spades))
         val hand = player { BlackjackHand(shoe) }
         hand.play(Action.Hit, shoe)
         assertEquals(21, hand.total())
@@ -133,7 +133,7 @@ class HandTest {
 
     @Test
     fun `does not have blackjack after split`() {
-        val shoe = Shoe() + Shoe(cards = listOf(10 of Spades, 10 of Diamonds, 10 of Spades, 10 of Diamonds))
+        val shoe = Shoe(cards = listOf(10 of Spades, 10 of Diamonds, 10 of Spades, 10 of Diamonds))
         val hand = BlackjackHand(shoe = shoe)
         val (first, second) = hand.split(shoe)
         assertEquals(20, first.total())
@@ -142,14 +142,14 @@ class HandTest {
 
     @Test
     fun `has blackjack`() {
-        val shoe = Shoe() + Shoe(cards = listOf(Ace of Spades, 10 of Diamonds))
+        val shoe = Shoe(cards = listOf(Ace of Spades, 10 of Diamonds))
         val hand = RegularPlayer(listOf(BlackjackHand(shoe = shoe))).apply { assignAce(AceAssignment.ELEVEN) }
         assertTrue(hand.hasBlackjack())
     }
 
     @Test
     fun `has tie with equal score`() {
-        val shoe = Shoe() + Shoe(cards = listOf(Ace of Spades, Queen of Diamonds, Ace of Hearts, 10 of Diamonds))
+        val shoe = Shoe(cards = listOf(Ace of Spades, Queen of Diamonds, Ace of Hearts, 10 of Diamonds))
         val player = BlackjackHand(shoe)
         val dealer = BlackjackHand(shoe)
         assertTrue(player.compareTo(dealer) == 0)
@@ -157,10 +157,13 @@ class HandTest {
 
     @Test
     fun `can determine winner`() {
-        val shoe = Shoe() + Shoe(cards = listOf(Ace of Spades, Queen of Diamonds, Ace of Hearts, 10 of Diamonds))
-        val player = BlackjackHand(shoe).hit(shoe) // Wil get over 21 and bust
-        val dealer = BlackjackHand(shoe)
-        assertTrue(player < dealer)
+        val shoe = Shoe(cards = listOf(Ace of Spades, Queen of Diamonds, Ace of Hearts, 10 of Diamonds))
+        val player = player { BlackjackHand(shoe) }.apply {
+            play(Action.Hit, shoe)
+        }
+
+        val dealer = Dealer(BlackjackHand(shoe))
+        assertEquals(ScoreResult.Lose, player.scoreAgainst(dealer))
     }
 }
 

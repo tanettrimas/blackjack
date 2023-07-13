@@ -1,7 +1,7 @@
 package card
 
-class Shoe(private val shoeSize: Int = 1, cards: List<Card> = fromShoeSize(shoeSize)) {
-    private val cards = cards.toMutableList()
+class Shoe(private val shoeSize: Int = 1, cards: List<Card> = emptyList()) {
+    private val cards = cards.toMutableList().apply { addAll(fromShoeSize(shoeSize)) }
 
     companion object {
         private fun createCards() = Suit
@@ -48,10 +48,12 @@ class Shoe(private val shoeSize: Int = 1, cards: List<Card> = fromShoeSize(shoeS
         return result
     }
 
-    operator fun plus(shoe: Shoe) = Shoe(cards = shoe.cards + this.cards)
-
     fun deal(): Card {
         refreshIfPossible()
         return cards.removeFirst()
+    }
+
+    operator fun plus(shoe: Shoe): Shoe {
+        return Shoe(cards = shoe.cards)
     }
 }
