@@ -12,10 +12,9 @@ interface Hand : Comparable<Hand> {
     fun isBust(): Boolean
     fun isSplittable(): Boolean
     fun hasAce(): Boolean
+    fun splitted(): Boolean
 
     val size: Int
-    val splitted: Boolean
-    val totalAces: Int
 }
 
 class BlackjackHand private constructor(private val cards: List<Card>, private val hasSplit: Boolean = false) : Hand {
@@ -55,13 +54,10 @@ class BlackjackHand private constructor(private val cards: List<Card>, private v
         return "Hand(cards=$cards)"
     }
 
-    override fun hasAce() = totalAces > 0
+    override fun hasAce() = cards.count { it.rank == Face.Ace } > 0
+    override fun splitted() = hasSplit
+
     override val size: Int
         get() = cards.size
-    override val splitted: Boolean
-        get() = hasSplit
-    override val totalAces: Int
-        get() = cards.count { it.rank == Face.Ace }
-
 }
 private fun List<Card>.isSplittable() = this.size == 2 && this[0].rank.value() == this[1].rank.value()

@@ -16,7 +16,7 @@ class RegularPlayer(hands: List<Hand>) : Player {
             hands[currentHandIndex] = value
         }
 
-    override fun hasBlackjack() = currentHand.size == 2 && !currentHand.splitted && total() == 21
+    override fun hasBlackjack() = currentHand.size == 2 && !currentHand.splitted() && total() == 21
     fun assignAce(aceAssignment: AceAssignment) {
         this.aceAssignment = aceAssignment
     }
