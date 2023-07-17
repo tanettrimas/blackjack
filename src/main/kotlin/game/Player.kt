@@ -10,8 +10,8 @@ interface Player {
     fun isBust() = total() > 21
 
     fun scoreAgainst(other: Player): ScoreResult {
-        if (isBust() && !other.isBust()) return ScoreResult.Lose
-        else if (!isBust() && other.isBust()) return ScoreResult.Win
+        if (isBust() && !other.isBust() || other.hasBlackjack() && !hasBlackjack()) return ScoreResult.Lose
+        else if (!isBust() && other.isBust() || hasBlackjack() && !other.hasBlackjack()) return ScoreResult.Win
         return ScoreResult.from(this.total().compareTo(other.total()))
     }
 
