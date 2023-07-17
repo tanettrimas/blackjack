@@ -169,6 +169,18 @@ class HandTest {
     }
 
     @Test
+    fun `loses if one player has blackjack and the other gets 21 after hit`() {
+        val shoe = Shoe(cards = listOf(6 of Clubs))
+        val player = player { BlackjackHand(Ace of Spades, 10 of Hearts) }
+        val dealer = Dealer(BlackjackHand(10 of Hearts, 5 of Clubs))
+        dealer.play(Action.Hit, shoe)
+        assertEquals(ScoreResult.Win, player.scoreAgainst(dealer))
+        assertEquals(player.total(), dealer.total())
+        assertTrue(player.hasBlackjack())
+        assertFalse(dealer.hasBlackjack())
+    }
+
+    @Test
     fun `cannot split two unequal face cards`() {
         val handOne = BlackjackHand(Jack of Hearts, Queen of Spades)
         assertFalse(handOne.isSplittable())
