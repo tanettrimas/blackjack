@@ -2,7 +2,7 @@ package game
 
 import card.Shoe
 
-class FinishedHand(hand: Hand): Hand by hand {
+internal class FinishedHand(hand: Hand): Hand by hand {
     override fun isSplittable(): Boolean {
         return false
     }
