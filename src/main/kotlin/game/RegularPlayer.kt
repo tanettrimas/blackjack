@@ -61,6 +61,10 @@ class RegularPlayer(hands: List<Hand>) : Player {
     override fun isFinished(): Boolean {
         return isBust() || hands.all { it is FinishedHand }
     }
+
+    override fun printCards(): String {
+        return hands.toString()
+    }
 }
 
 private class HandWithAssignment(private val hand: Hand, private val aceAssignment: AceAssignment) : Hand by hand {

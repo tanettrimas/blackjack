@@ -51,7 +51,7 @@ class BlackjackHand private constructor(private val cards: List<Card>, private v
     }
 
     override fun toString(): String {
-        return "Hand(cards=$cards)"
+        return "$cards"
     }
 
     override fun hasAce() = cards.count { it.rank == Face.Ace } > 0

@@ -18,6 +18,8 @@ interface Player {
     fun hasBlackjack(): Boolean
 
     fun isFinished(): Boolean
+
+    fun printCards(): String
 }
 
 enum class ScoreResult(private val score: Int) {

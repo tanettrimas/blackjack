@@ -3,6 +3,8 @@ package game
 import card.Shoe
 
 class Dealer(private var hand: Hand) : Player {
+    private var actionPlayed = false
+
     override fun total(): Int {
         val sum = hand.total()
         return if (sum + 10 <= 21) {
@@ -20,6 +22,7 @@ class Dealer(private var hand: Hand) : Player {
     }
 
     override fun play(action: Action, shoe: Shoe) {
+        actionPlayed = true
         if (isFinished()) {
             return
         }
@@ -40,4 +43,21 @@ class Dealer(private var hand: Hand) : Player {
     override fun hasBlackjack() = hand.size == 2 && total() == 21
 
     override fun isFinished() = isBust() || hand is FinishedHand
+    override fun printCards(): String {
+        return if (!actionPlayed) {
+            val pattern = "\\[(.*?)]" // The pattern to match the content inside square brackets
+
+            val regex = Regex(pattern)
+            val matchResult = regex.find(hand.toString())
+
+            if (matchResult != null) {
+                val innerContent = matchResult.groupValues[1]
+                "[${innerContent.split(",").first()}, <HIDDEN>]"
+            } else {
+                ""
+            }
+        } else {
+            hand.toString()
+        }
+    }
 }
