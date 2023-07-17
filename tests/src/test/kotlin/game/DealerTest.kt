@@ -52,10 +52,11 @@ class DealerTest {
 
     @Test
     fun testIsFinished() {
+        val shoe = Shoe(cards = mutableListOf(2 of Suit.Hearts, 5 of Suit.Spades))
         val hand = BlackjackHand(10 of Suit.Hearts, 7 of Suit.Spades)
         val dealer = Dealer(hand)
         assertFalse(dealer.isFinished())
-        dealer.play(Action.Hit, Shoe())
+        dealer.play(Action.Hit, shoe)
         assertTrue(dealer.isFinished())
         assertTrue(dealer.actions().isEmpty())
     }
