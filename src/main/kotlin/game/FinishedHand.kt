@@ -2,7 +2,7 @@ package game
 
 import card.Shoe
 
-internal class FinishedHand(hand: Hand): Hand by hand {
+internal class FinishedHand(private val hand: Hand): Hand by hand {
     override fun isSplittable(): Boolean {
         return false
     }
@@ -14,4 +14,6 @@ internal class FinishedHand(hand: Hand): Hand by hand {
     override fun split(shoe: Shoe): List<Hand> {
         error("Cannot split a finsihed hand")
     }
+
+    override fun toString() = hand.toString()
 }

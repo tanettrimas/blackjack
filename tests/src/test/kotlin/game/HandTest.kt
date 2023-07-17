@@ -1,7 +1,7 @@
 package game
 
-import card.Face.Ace
-import card.Face.Queen
+import card.Face
+import card.Face.*
 import card.Shoe
 import card.Suit.*
 import card.of
@@ -166,6 +166,12 @@ class HandTest {
         assertEquals(ScoreResult.Lose, player.scoreAgainst(dealer))
         assertTrue(player.isFinished())
         assertTrue(player.isBust())
+    }
+
+    @Test
+    fun `cannot split two unequal face cards`() {
+        val handOne = BlackjackHand(Jack of Hearts, Queen of Spades)
+        assertFalse(handOne.isSplittable())
     }
 }
 

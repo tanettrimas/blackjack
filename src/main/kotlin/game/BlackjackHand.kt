@@ -60,4 +60,6 @@ class BlackjackHand private constructor(private val cards: List<Card>, private v
     override val size: Int
         get() = cards.size
 }
-private fun List<Card>.isSplittable() = this.size == 2 && this[0].rank.value() == this[1].rank.value()
+private fun List<Card>.isSplittable(): Boolean {
+    return this.size == 2 && this[0].rank == this[1].rank
+}

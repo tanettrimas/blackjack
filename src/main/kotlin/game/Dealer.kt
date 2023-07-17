@@ -7,7 +7,7 @@ class Dealer(private var hand: Hand) : Player {
 
     override fun total(): Int {
         val sum = hand.total()
-        return if (sum + 10 <= 21) {
+        return if (hand.hasAce() && sum + 10 <= 21) {
             sum + 10
         } else {
             sum
