@@ -69,12 +69,12 @@ class Game {
     }
 
     private fun Player.totalWithAssignment() = try {
-        regularPlayer.total()
+        this.total()
     } catch (e: AceNotAssignedError) {
         println("Ace detected in your hand but not assigned. Please assign ace to either ${AceAssignment.ONE} or ${AceAssignment.ELEVEN}: ")
         val assignment = AceAssignment.valueOf(readln())
-        (regularPlayer as RegularPlayer).assignAce(assignment)
-        regularPlayer.total()
+        (this as RegularPlayer).assignAce(assignment)
+        this.total()
     }
 
     private fun line() = println("----------------------------------------------------------------------")

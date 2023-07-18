@@ -4,19 +4,6 @@ import card.Card
 import card.Shoe
 import card.Face
 
-interface Hand : Comparable<Hand> {
-    operator fun contains(card: Card): Boolean
-    fun total(): Int
-    fun split(shoe: Shoe): List<Hand>
-    fun hit(shoe: Shoe): Hand
-    fun isBust(): Boolean
-    fun isSplittable(): Boolean
-    fun hasAce(): Boolean
-    fun splitted(): Boolean
-
-    val size: Int
-}
-
 class BlackjackHand private constructor(private val cards: List<Card>, private val hasSplit: Boolean = false) : Hand {
     constructor(vararg cards: Card, splitted: Boolean = false) : this(cards.toList(), splitted)
     constructor(shoe: Shoe) : this(shoe.deal(), shoe.deal())

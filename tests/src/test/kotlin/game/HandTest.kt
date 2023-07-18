@@ -1,6 +1,5 @@
 package game
 
-import card.Face
 import card.Face.*
 import card.Shoe
 import card.Suit.*

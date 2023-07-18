@@ -21,5 +21,5 @@ class Card(private val suit: Suit, internal val rank: Rank) {
     }
 }
 
-infix fun Int.of(suit: Suit): Card = Card(suit, CardNumber(this))
-infix fun Face.of(suit: Suit): Card = Card(suit, this)
+infix fun Int.of(suit: Suit) = Card(suit, CardNumber(this))
+infix fun Face.of(suit: Suit) = Card(suit, this)
