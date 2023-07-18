@@ -37,7 +37,7 @@ class RegularPlayer(hands: List<Hand>) : Player {
     }
 
     override fun play(action: Action, shoe: Shoe) {
-        if (isFinished()) {
+        if (currentHand is FinishedHand || isFinished()) {
             return
         }
         when (action) {
