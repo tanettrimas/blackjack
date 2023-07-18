@@ -27,11 +27,15 @@ class DealerTest {
 
     @Test
     fun testPlayHit() {
-        val shoe = Shoe(cards = mutableListOf(2 of Suit.Hearts, 5 of Suit.Spades))
+        val shoe = Shoe(cards = mutableListOf(2 of Suit.Hearts, 2 of Suit.Diamonds))
         val hand = BlackjackHand(10 of Suit.Hearts, 7 of Suit.Spades)
         val dealer = Dealer(hand)
         dealer.play(Action.Hit, shoe)
-        assertEquals(19, dealer.total())
+        assertEquals(17, dealer.total())
+
+        val player = RegularPlayer(listOf(hand))
+        player.play(Action.Hit, shoe)
+        assertEquals(19, player.total())
     }
 
     @Test
@@ -64,10 +68,10 @@ class DealerTest {
     @Test
     fun testPrintCards() {
         val shoe = Shoe(cards = mutableListOf(2 of Suit.Hearts, 5 of Suit.Spades))
-        val hand = BlackjackHand(10 of Suit.Hearts, 7 of Suit.Spades)
+        val hand = BlackjackHand(10 of Suit.Hearts, 6 of Suit.Spades)
         val dealer = Dealer(hand)
         assertEquals("[10 of Hearts, <HIDDEN>]", dealer.printCards())
         dealer.play(Action.Hit, shoe)
-        assertEquals("[10 of Hearts, 7 of Spades, 2 of Hearts]", dealer.printCards())
+        assertEquals("[10 of Hearts, 6 of Spades, 2 of Hearts]", dealer.printCards())
     }
 }

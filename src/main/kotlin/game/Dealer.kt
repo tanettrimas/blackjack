@@ -28,7 +28,9 @@ class Dealer(private var hand: Hand) : Player {
         }
         when(action) {
             Action.Hit -> {
-                hand = hand.hit(shoe)
+                if (total() < 17) {
+                    hand = hand.hit(shoe)
+                }
                 return if (total() < 17) {
                     play(Action.Hit, shoe)
                 } else {
